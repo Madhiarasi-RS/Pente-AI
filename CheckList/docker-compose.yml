@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  checklist-app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=${MONGODB_URI}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+    depends_on:
+      - mongodb
+    networks:
+      - checklist-network
+
+  mongodb:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=checklist-app
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - checklist-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  checklist-network:
+    driver: bridge
