@@ -3,12 +3,7 @@ A comprehensive full-stack learning management system built with React, Node.js,
 
 ---
 
-## 🎥 Video Explanation
 
-- **Watch a full walkthrough of SkillMentor.AI**:  
-  [Video Walkthrough](https://drive.google.com/file/d/1cPv7LF8IAOlZp-Y4HB7tjLYokwepqe72/view?usp=drive_link)
-
-  ---
 
 ## 🌐 Live Demo
 
