@@ -15,6 +15,12 @@ SkillMentor is an intelligent learning management system where users can browse,
 
 🔗 **Live Demo:** https://skill-mentor-ai.vercel.app/
 
+
+## 🎥 Video Explanation
+
+- *Watch a full walkthrough of SkillMentor.AI*:  
+  [Video Walkthrough](https://drive.google.com/drive/folders/11DTujW8423aT6JMOkF26WsWCM_6H6JGY)
+
 ---
 ## 🎓 Project 2:  Checklist
 
