@@ -77,22 +77,7 @@ const Header = () => {
                   to="/admin/dashboard" 
                   className="flex items-center text-gray-700 hover:text-indigo-600 transition-colors"
                 >
-                  <BarChart3 className="h-4 w-4 mr-1" />
-                  Dashboard
-                </Link>
-                <Link 
-                  to="/contact" 
-                  className="flex items-center text-gray-700 hover:text-indigo-600 transition-colors"
-                >
-                  <Settings className="h-4 w-4 mr-1" />
-                  Contact
-                </Link>
-                <Link 
-                  to="/about" 
-                  className="flex items-center text-gray-700 hover:text-indigo-600 transition-colors"
-                >
-                  <User className="h-4 w-4 mr-1" />
-                  About
+                  
                 </Link>
               </>
             )}

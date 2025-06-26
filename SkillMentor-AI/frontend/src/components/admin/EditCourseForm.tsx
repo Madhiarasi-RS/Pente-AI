@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Youtube } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface Course {
   _id: string;
@@ -69,6 +70,7 @@ const EditCourseForm: React.FC<EditCourseFormProps> = ({ course, onSuccess, onCa
 
       if (response.success) {
         onSuccess();
+        toast.success('Course Data updated successfully');
       }
     } catch (err: any) {
       setError(err.message || 'Failed to update course');

@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Search, Eye, Edit, Trash2, Plus, Star, Youtube, Image as ImageIcon } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface Course {
   _id: string;
@@ -78,6 +79,8 @@ const CourseManagement = () => {
       try {
         await coursesAPI.deleteCourse(courseId);
         setCourses(prev => prev.filter(course => course._id !== courseId));
+         toast.success('Course deleted Successfully');
+          fetchCourses();
       } catch (err: any) {
         setError(err.message || 'Failed to delete course');
       }

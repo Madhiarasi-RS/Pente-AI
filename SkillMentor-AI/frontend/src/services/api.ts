@@ -96,6 +96,7 @@ updateProfileUser: async (updatedData: any) => {
   },
 };
 
+
 export const coursesAPI = {
   getAllCourses: (params?: Record<string, any>) =>
     apiClient.get('/courses', { params }).then(res => res.data),

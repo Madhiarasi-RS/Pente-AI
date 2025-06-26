@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Upload, Plus, X, Youtube, Image as ImageIcon } from 'lucide-react';
+import { toast } from 'sonner';
 
 // Assume you have a UserContext to get logged-in user's
 
@@ -116,6 +117,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({ onSuccess, onCancel }) =>
 
       if (response.success) {
         onSuccess();
+        toast.success("Course Added Successfully");
       } else {
         throw new Error(response.message || 'Failed to create course');
       }

@@ -95,14 +95,7 @@ const Index = () => {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/contact"
-              element={
-                <ProtectedRoute role="admin">
-                  <Contact />
-                </ProtectedRoute>
-              }
-            />
+        
 
             {/* Catch-all route */}
             <Route path="*" element={<Navigate to="/" replace />} />

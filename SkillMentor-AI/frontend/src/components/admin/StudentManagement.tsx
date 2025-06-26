@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Search, Eye, Edit, Trash2, Users, UserCheck, UserX } from 'lucide-react';
+import { Search, Edit, Trash2, Users, UserCheck, UserX } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface Student {
@@ -62,13 +62,20 @@ const StudentManagement = () => {
   };
 
   const handleUpdateStudent = async (id: string, updatedData: Partial<Student>) => {
+    setLoading(true);
+    setError('');
     try {
       const updatedUser = await usersAPI.updateUser(id, updatedData);
-      setStudents(prev => prev.map(s => (s._id === id ? { ...s, ...updatedUser } : s)));
-      toast.success('User Data successfully Updated');
-        window.location.reload(); 
+      setStudents(prev =>
+        prev.map(s => (s._id === id ? { ...s, ...updatedUser } : s))
+      );
+      toast.success('User Data successfully updated');
+      fetchStudents();
     } catch (err: any) {
       setError(err.message || 'Failed to update student');
+      toast.error(err.message || 'Update failed');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -77,8 +84,11 @@ const StudentManagement = () => {
       try {
         await usersAPI.deleteUser(id);
         setStudents(prev => prev.filter(s => s._id !== id));
+        toast.success('Student deleted');
+        fetchStudents();
       } catch (err: any) {
         setError(err.message || 'Failed to delete student');
+        toast.error(err.message || 'Delete failed');
       }
     }
   };
@@ -144,8 +154,8 @@ const StudentManagement = () => {
                       <TableCell>{new Date(student.createdAt).toLocaleDateString()}</TableCell>
                       <TableCell><Badge className={student.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}>{student.isActive ? 'Active' : 'Inactive'}</Badge></TableCell>
                       <TableCell className="flex gap-2">
-                        <Button size="sm" variant="outline" onClick={() => openEditDialog(student)}><Edit className="h-4 w-4" /></Button>
-                        <Button size="sm" variant="outline" className="text-red-500" onClick={() => handleDelete(student._id)}><Trash2 className="h-4 w-4" /></Button>
+                        <Button size="sm" variant="outline" onClick={() => openEditDialog(student)} disabled={loading}><Edit className="h-4 w-4" /></Button>
+                        <Button size="sm" variant="outline" className="text-red-500" onClick={() => handleDelete(student._id)} disabled={loading}><Trash2 className="h-4 w-4" /></Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -166,26 +176,28 @@ const StudentManagement = () => {
               await handleUpdateStudent(editStudent._id, editStudent);
               setShowEditDialog(false);
             }} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block mb-1 font-medium">Name</label>
-                  <Input value={editStudent.name} onChange={(e) => setEditStudent({ ...editStudent, name: e.target.value })} />
+              <fieldset disabled={loading} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block mb-1 font-medium">Name</label>
+                    <Input value={editStudent.name} onChange={(e) => setEditStudent({ ...editStudent, name: e.target.value })} />
+                  </div>
+                  <div>
+                    <label className="block mb-1 font-medium">Email</label>
+                    <Input value={editStudent.email} onChange={(e) => setEditStudent({ ...editStudent, email: e.target.value })} />
+                  </div>
+                  <div>
+                    <label className="block mb-1 font-medium">Contact No</label>
+                    <Input value={editStudent.profile?.contactNo || ''} onChange={(e) => setEditStudent({ ...editStudent, profile: { ...editStudent.profile, contactNo: e.target.value } })} />
+                  </div>
+                  <div>
+                    <label className="block mb-1 font-medium">Education</label>
+                    <Input value={editStudent.profile?.education || ''} onChange={(e) => setEditStudent({ ...editStudent, profile: { ...editStudent.profile, education: e.target.value } })} />
+                  </div>
                 </div>
-                <div>
-                  <label className="block mb-1 font-medium">Email</label>
-                  <Input value={editStudent.email} onChange={(e) => setEditStudent({ ...editStudent, email: e.target.value })} />
-                </div>
-                <div>
-                  <label className="block mb-1 font-medium">Contact No</label>
-                  <Input value={editStudent.profile?.contactNo || ''} onChange={(e) => setEditStudent({ ...editStudent, profile: { ...editStudent.profile, contactNo: e.target.value } })} />
-                </div>
-                <div>
-                  <label className="block mb-1 font-medium">Education</label>
-                  <Input value={editStudent.profile?.education || ''} onChange={(e) => setEditStudent({ ...editStudent, profile: { ...editStudent.profile, education: e.target.value } })} />
-                </div>
-              </div>
+              </fieldset>
               <div className="text-right">
-                <Button type="submit">Update</Button>
+                <Button type="submit" disabled={loading}>{loading ? 'Updating...' : 'Update'}</Button>
               </div>
             </form>
           )}
